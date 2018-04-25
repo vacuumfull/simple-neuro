@@ -1,17 +1,5 @@
 import math
 
-
-I1=1 
-I2=0
-O1ideal=1
-
-w1=0.45 
-w2=0.78 
-w3=-0.12 
-w4=0.13 
-w5=1.5 
-w6=-2.3
-
 class XORNeuro:
 
     def __init__(self):
