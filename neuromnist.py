@@ -7,12 +7,15 @@ import matplotlib.pyplot as plt
 class NeuroMnist:
 
     MNIST_PATH = 'data/mnist.npz'
+    COUNT_VALUES = 784
 
     def __init__(self):
         self.images, self.labels = self.get_mnist()
+        print(type(self.images), self.images, self.images.shape)
+        print(type(self.labels), self.labels, self.labels.shape)
 
         # Инициализация весов случайными числами
-        self.weight_i_h = np.random.uniform(-0.5, 0.5, (20, 784))
+        self.weight_i_h = np.random.uniform(-0.5, 0.5, (20, self.COUNT_VALUES))
         self.weight_h_o = np.random.uniform(-0.5, 0.5, (10, 20))
         #print('self.weight_i_h', type(self.weight_i_h), self.weight_i_h.shape)
         # Инициализация смещений нулями
@@ -35,7 +38,7 @@ class NeuroMnist:
     # Примечание: предполагается, что файл mnist.npz размещён в папке data, которая находится в папке со скриптом.
         with np.load(f"{pathlib.Path(__file__).parent.absolute()}/{self.MNIST_PATH}") as f:
             images, labels = f["x_train"], f["y_train"]
-
+            print('images', type(images), images)
     # Преобразуем тип данных массива images в float32 и сожмём значения в диапазон от 0 до 1 путем деления на 255. 
             images = images.astype("float32") / 255
 
@@ -115,17 +118,18 @@ class NeuroMnist:
             plt.imshow(img.reshape(28, 28), cmap="Greys")
             
             # Прямое распространение ввод -> скрытый слой
-            h_pre = self.bias_i_h + self.weight_i_h @ img.reshape(784, 1)
+            h_pre = self.bias_i_h + self.weight_i_h @ img.reshape(self.COUNT_VALUES, 1)
             # Активация сигмоида
             h = self.sigmoid(h_pre)
             # Прямое распространение скрытый слой -> вывод
             o_pre = self.bias_h_o + self.weight_h_o @ h
             # Активация сигмоида
             o = self.sigmoid(o_pre)
-            print('o', type(o), o.shape)
+            print('o', type(o), o.shape, o.shape[0])
 
             # argmax возвращает порядковый номер самого большого элемента в массиве
-            plt.title(f"Нейросеть считает, что на картинке цифра {o.argmax()}")
+            print(o)
+            plt.title(f"Нейросеть считает, что на картинке {o.argmax()}")
             plt.show()
 
 
