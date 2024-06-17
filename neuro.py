@@ -2,6 +2,8 @@ import math
 
 class XORNeuro:
 
+    RANGE = 5000
+
     def __init__(self):
         self.inputs = [1, 0]
         self.ideal = [0, 1, 1, 0]
@@ -195,7 +197,7 @@ class XORNeuro:
         
         out = 0
 
-        for i in range(5000):
+        for i in range(self.RANGE):
 
             h1inp = self.weights[0] * self.inputs[0] + self.weights[1] * self.inputs[1]
             h1out = self.sigmoid(h1inp)
@@ -250,7 +252,7 @@ class XORNeuro:
             self.update_weights(i, o_outs, h_outs)
 
 
-            if i == 4999:
+            if i == self.RANGE - 1:
                 out = o_outs
 
         print('sec result ',  out)
